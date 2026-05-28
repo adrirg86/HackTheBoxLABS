@@ -1,4 +1,6 @@
-### WingData--HackTheBox🏴󠁧󠁢󠁥󠁮󠁧󠁿
+## WingData-HackTheBox🏴󠁧󠁢󠁥󠁮󠁧󠁿
+
+### Recognition and Enumeration
 
 ####  First we need to prove the conexion with the machine.
 ```bash
@@ -41,6 +43,10 @@ cd CVE-2025-47812-poc
 ```
 
 <img width="965" height="224" alt="image" src="https://github.com/user-attachments/assets/7c6a51d6-c68f-40fa-9509-ff710444b209" />
+
+
+### Exploitation
+
 
 
 #### At one terminal we start to hear.
@@ -95,6 +101,10 @@ ssh wacky@10.129.244.106
 #### We have the user flag
 
 <img width="986" height="126" alt="image" src="https://github.com/user-attachments/assets/8ec53dcb-89a4-48b9-868c-00a595f1a5d2" />
+
+
+### Escalation of Privileges
+
 
 
 #### Now we are going to prove `sudo -l` for search which binaries can manipulate
