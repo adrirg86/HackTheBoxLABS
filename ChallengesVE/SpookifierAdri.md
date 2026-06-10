@@ -25,7 +25,7 @@ cat routes.py
  *There is only one parameter that the user controls: request.args.get('text').*
 
 
-#### 4. We're going to prove the inyection SSTI.
+#### 4. We're going to prove the injection SSTI.
 ```bash
 ${42-20}
 ```
